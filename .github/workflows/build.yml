@@ -17,6 +17,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+`
+    - name: Log in to ghcr.io
+       uses: redhat-actions/podman-login@v1
+       with:
+         username: ${{ env.REGISTRY_USER }}
+         password: ${{ env.REGISTRY_PASSWORD }}
+         registry: ${{ env.IMAGE_REGISTRY }}
 
     - name: Buildah Action
       id: build_image
@@ -26,13 +33,6 @@ jobs:
         tags: v1 ${{ github.sha }}
         containerfiles: |
           ./example.containerfile
-
-      - name: Log in to ghcr.io
-        uses: redhat-actions/podman-login@v1
-        with:
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
-          registry: ${{ env.IMAGE_REGISTRY }}
 
       # Push the image to GHCR (Image Registry)
       - name: Push To GHCR
