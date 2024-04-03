@@ -5,6 +5,8 @@ env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
   IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  IMAGE_NAME: my-new-image
+  IMAGE_TAG: ${{ github.sha }}
 
 
 jobs:
@@ -46,3 +48,6 @@ jobs:
         password: ${{ env.REGISTRY_PASSWORD }}
         extra-args: |
          --disable-content-trust
+
+    - name: Run the image
+      run: docker run -v ${{ github.workspace }}:/ociworkshop/workspace -w /ociworkshop/workspace "${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}" bash -c "mv /ociworkshop/node_modules/ociworkshop/ && npm run build"
