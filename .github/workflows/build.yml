@@ -36,7 +36,7 @@ jobs:
 
     # Push the image to GHCR (Image Registry)
     - name: Push To GHCR
-      uses: redhat-actions/push-to-image-registry@v1
+      uses: redhat-actions/push-to-registry@v2
       id: push
       with:
         image: ${{ steps.build_image.outputs.image }}
